@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campeonato 1v1 Slayer POUSIZA - Halo Reach</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        unsc: {
+                            bg: '#0B0F19',
+                            card: '#131B2E',
+                            border: '#1E293B',
+                            cyan: '#06B6D4',
+                            amber: '#F59E0B',
+                            green: '#10B981',
+                            red: '#EF4444',
+                            accent: '#38BDF8',
+                            darkBlue: '#0F172A'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0B0F19;
+            color: #E2E8F0;
+            font-family: 'Inter', sans-serif;
+            background-image: radial-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .unsc-box {
+            background: linear-gradient(135deg, rgba(19, 27, 46, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .unsc-glow {
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+        .unsc-btn {
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+            transition: all 0.2s ease;
+        }
+        .unsc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0F172A;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #06B6D4;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between custom-scrollbar">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="sticky top-0 z-40 bg-unsc-bg/90 backdrop-blur-md border-b border-unsc-cyan/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand / Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-unsc-cyan/20 border border-unsc-cyan flex items-center justify-center text-unsc-cyan">
+                        <i class="fa-solid font-bold text-xl fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <span class="font-orbitron text-xs tracking-widest text-unsc-cyan uppercase block">UNSC TACTICAL NET</span>
+                        <h1 class="font-orbitron font-extrabold text-lg sm:text-xl text-white tracking-wider">HALO REACH 1V1</h1>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden md:flex items-center space-x-1">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-tab px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm tracking-wider uppercase transition-all flex items-center gap-2 text-unsc-cyan bg-unsc-cyan/10 border border-unsc-cyan/40">
+                        <i class="fa-solid fa-gauge-high"></i> Inicio
+                    </button>
+                    <button onclick="switchTab('spartans')" id="nav-spartans" class="nav-tab px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm tracking-wider uppercase transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-user-ninja"></i> Spartans
+                    </button>
+                    <button onclick="switchTab('bracket')" id="nav-bracket" class="nav-tab px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm tracking-wider uppercase transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-diagram-project"></i> Llaves
+                    </button>
+                    <button onclick="switchTab('standings')" id="nav-standings" class="nav-tab px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm tracking-wider uppercase transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-trophy"></i> Posiciones
+                    </button>
+                    <button onclick="switchTab('clips')" id="nav-clips" class="nav-tab px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm tracking-wider uppercase transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-film"></i> Clips
+                    </button>
+                    <button onclick="switchTab('rules')" id="nav-rules" class="nav-tab px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm tracking-wider uppercase transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-scroll"></i> Reglas y Mapas
+                    </button>
+                </nav>
+
+                <!-- Status indicator -->
+                <div class="flex items-center gap-3">
+                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> TORNEO ACTIVO
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Bar -->
+        <div class="md:hidden flex overflow-x-auto px-4 py-2 border-t border-slate-800 space-x-2 text-xs">
+            <button onclick="switchTab('dashboard')" id="mobile-nav-dashboard" class="mobile-nav-tab px-3 py-1.5 rounded-md font-rajdhani font-semibold tracking-wider text-unsc-cyan bg-unsc-cyan/10 whitespace-nowrap">
+                Inicio
+            </button>
+            <button onclick="switchTab('spartans')" id="mobile-nav-spartans" class="mobile-nav-tab px-3 py-1.5 rounded-md font-rajdhani font-semibold tracking-wider text-slate-400 whitespace-nowrap">
+                Spartans
+            </button>
+            <button onclick="switchTab('bracket')" id="mobile-nav-bracket" class="mobile-nav-tab px-3 py-1.5 rounded-md font-rajdhani font-semibold tracking-wider text-slate-400 whitespace-nowrap">
+                Llaves
+            </button>
+            <button onclick="switchTab('standings')" id="mobile-nav-standings" class="mobile-nav-tab px-3 py-1.5 rounded-md font-rajdhani font-semibold tracking-wider text-slate-400 whitespace-nowrap">
+                Posiciones
+            </button>
+            <button onclick="switchTab('clips')" id="mobile-nav-clips" class="mobile-nav-tab px-3 py-1.5 rounded-md font-rajdhani font-semibold tracking-wider text-slate-400 whitespace-nowrap">
+                Clips
+            </button>
+            <button onclick="switchTab('rules')" id="mobile-nav-rules" class="mobile-nav-tab px-3 py-1.5 rounded-md font-rajdhani font-semibold tracking-wider text-slate-400 whitespace-nowrap">
+                Reglas
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- SECTION 1: DASHBOARD / INICIO -->
+        <section id="sec-dashboard" class="space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative rounded-2xl overflow-hidden unsc-box border-unsc-cyan/40 p-6 sm:p-10 bg-gradient-to-r from-unsc-card via-unsc-darkBlue to-slate-900">
+                <!-- Background image positioned to display Spartan helmets clearly -->
+                <div class="absolute inset-0 bg-cover opacity-85 pointer-events-none" style="background-image: url('1v1Showdown_MOTD.jpg'), url('https://images.alphacoders.com/168/168233.jpg'); background-position: center top; filter: contrast(1.1) saturate(1.2) brightness(1.0);"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-unsc-bg/95 via-unsc-darkBlue/80 to-transparent pointer-events-none"></div>
+                
+                <div class="relative z-10 max-w-2xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-unsc-cyan/20 border border-unsc-cyan/50 text-unsc-cyan text-xs font-mono font-bold uppercase tracking-widest">
+                        <i class="fa-solid fa-crosshairs"></i> UNSC SHOWDOWN 1V1
+                    </div>
+                    <h2 class="font-orbitron text-3xl sm:text-5xl font-black text-white tracking-wide uppercase unsc-glow leading-tight">
+                        CAMPEONATO 1V1 SLAYER POUSIZA
+                    </h2>
+                    <p class="text-slate-300 font-sans text-sm sm:text-base leading-relaxed">
+                        Demuestra tu precisión táctica con DMR y Rifle de Batalla. Enfrentamientos frente a frente en el mapa oficial <span class="text-unsc-cyan font-semibold">Santuario</span>.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-4">
+                        <button onclick="switchTab('bracket')" class="unsc-btn bg-unsc-cyan text-slate-950 font-orbitron font-bold px-6 py-3 text-sm hover:bg-cyan-300 flex items-center gap-2 uppercase tracking-wider">
+                            <i class="fa-solid fa-play"></i> Ver Enfrentamientos
+                        </button>
+                        <button onclick="openAddPlayerModal()" class="unsc-btn bg-slate-800/80 border border-unsc-cyan/40 text-white font-orbitron font-bold px-6 py-3 text-sm hover:bg-slate-700 flex items-center gap-2 uppercase tracking-wider">
+                            <i class="fa-solid fa-user-plus"></i> Registrar Spartan
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Overview Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="unsc-box p-5 rounded-xl border-l-4 border-l-unsc-cyan flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-mono text-slate-400 uppercase tracking-wider">Spartans Registrados</p>
+                        <h3 id="dash-total-spartans" class="text-3xl font-orbitron font-bold text-white mt-1">0</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-unsc-cyan/10 border border-unsc-cyan/30 flex items-center justify-center text-unsc-cyan text-xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                </div>
+
+                <div class="unsc-box p-5 rounded-xl border-l-4 border-l-amber-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-mono text-slate-400 uppercase tracking-wider">Encuentros Generados</p>
+                        <h3 id="dash-total-matches" class="text-3xl font-orbitron font-bold text-white mt-1">0</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                </div>
+
+                <div class="unsc-box p-5 rounded-xl border-l-4 border-l-emerald-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-mono text-slate-400 uppercase tracking-wider">Bajas Totales</p>
+                        <h3 id="dash-total-kills" class="text-3xl font-orbitron font-bold text-white mt-1">0</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl">
+                        <i class="fa-solid fa-skull"></i>
+                    </div>
+                </div>
+
+                <div class="unsc-box p-5 rounded-xl border-l-4 border-l-purple-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-mono text-slate-400 uppercase tracking-wider">Líder del Torneo</p>
+                        <h3 id="dash-leader-name" class="text-lg font-orbitron font-bold text-purple-300 truncate mt-1">---</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Match Spotlight & Quick Settings -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Recent Matches / Spotlight -->
+                <div class="lg:col-span-2 unsc-box rounded-xl p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="font-orbitron text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-fire text-amber-500"></i> ENCUENTROS ACTIVOS
+                        </h3>
+                        <button onclick="switchTab('bracket')" class="text-xs font-mono text-unsc-cyan hover:underline">Ver Todos &rarr;</button>
+                    </div>
+                    <div id="dash-matches-preview" class="space-y-3">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Timer & Match Rules Widget -->
+                <div class="unsc-box rounded-xl p-6 space-y-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-orbitron text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-stopwatch text-unsc-cyan"></i> CRONÓMETRO TÁCTICO
+                        </h3>
+                        <div class="text-center my-6">
+                            <div id="timer-display" class="font-orbitron text-5xl font-black text-unsc-cyan tracking-widest drop-shadow-md">10:00</div>
+                            <p class="text-xs font-mono text-slate-400 mt-2 uppercase">Límite oficial por partida (10 min / 15 bajas)</p>
+                        </div>
+                        <div class="flex items-center justify-center gap-3">
+                            <button onclick="startTimer()" class="unsc-btn bg-emerald-600 hover:bg-emerald-500 text-white font-orbitron text-xs px-4 py-2 rounded flex items-center gap-1.5">
+                                <i class="fa-solid fa-play"></i> Iniciar
+                            </button>
+                            <button onclick="pauseTimer()" class="unsc-btn bg-amber-600 hover:bg-amber-500 text-white font-orbitron text-xs px-4 py-2 rounded flex items-center gap-1.5">
+                                <i class="fa-solid fa-pause"></i> Pausa
+                            </button>
+                            <button onclick="resetTimer()" class="unsc-btn bg-slate-700 hover:bg-slate-600 text-white font-orbitron text-xs px-4 py-2 rounded flex items-center gap-1.5">
+                                <i class="fa-solid fa-rotate-right"></i> Reiniciar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg bg-slate-900/80 border border-slate-800 text-xs text-slate-300 space-y-2">
+                        <div class="flex justify-between text-slate-400 font-mono">
+                            <span>Mapa Oficial:</span>
+                            <span class="text-unsc-cyan font-semibold">Santuario</span>
+                        </div>
+                        <div class="flex justify-between text-slate-400 font-mono">
+                            <span>Armamento:</span>
+                            <span class="text-slate-200">DMR / BR</span>
+                        </div>
+                        <div class="flex justify-between text-slate-400 font-mono">
+                            <span>Radar Táctico:</span>
+                            <span class="text-slate-200">25m Activado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: SPARTANS MANAGEMENT -->
+        <section id="sec-spartans" class="space-y-6 hidden">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 unsc-box p-6 rounded-xl">
+                <div>
+                    <h2 class="font-orbitron text-2xl font-bold text-white uppercase">REGISTRO DE SPARTANS</h2>
+                    <p class="text-xs text-slate-400 font-mono mt-1">Añade o edita los combatientes 1v1 para el torneo local</p>
+                </div>
+                <button onclick="openAddPlayerModal()" class="unsc-btn bg-unsc-cyan hover:bg-cyan-400 text-slate-950 font-orbitron font-bold text-sm px-5 py-2.5 flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Nuevo Spartan
+                </button>
+            </div>
+
+            <!-- Player List Grid -->
+            <div id="spartans-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Dynamic spartan cards -->
+            </div>
+        </section>
+
+        <!-- SECTION 3: BRACKET / ENCUENTROS 1V1 -->
+        <section id="sec-bracket" class="space-y-6 hidden">
+            <div class="unsc-box p-6 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="font-orbitron text-2xl font-bold text-white uppercase">LLAVES Y ENCUENTROS 1V1</h2>
+                    <p class="text-xs text-slate-400 font-mono mt-1">Genera cruces aleatorios o crea enfrentamientos personalizados</p>
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="generateRandomBracket()" class="unsc-btn bg-unsc-cyan hover:bg-cyan-400 text-slate-950 font-orbitron font-bold text-xs px-4 py-2.5 flex items-center gap-2">
+                        <i class="fa-solid fa-shuffle"></i> Sorteo Aleatorio
+                    </button>
+                    <button onclick="openManualMatchModal()" class="unsc-btn bg-slate-800 hover:bg-slate-700 border border-unsc-cyan/40 text-white font-orbitron font-bold text-xs px-4 py-2.5 flex items-center gap-2">
+                        <i class="fa-solid fa-hand-pointer"></i> Cruce Manual
+                    </button>
+                    <button onclick="confirmResetBracket()" class="unsc-btn bg-red-950/80 hover:bg-red-900 border border-red-500/40 text-red-300 font-orbitron font-bold text-xs px-4 py-2.5 flex items-center gap-2">
+                        <i class="fa-solid fa-trash-can"></i> Reiniciar Cruces
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Matches Container -->
+            <div class="space-y-4">
+                <h3 class="font-orbitron text-sm font-semibold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <i class="fa-solid fa-swords text-unsc-cyan"></i> ENCUENTROS EN LISTA DE COMBATE
+                </h3>
+                <div id="matches-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Dynamic Match Cards -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: STANDINGS / POSICIONES -->
+        <section id="sec-standings" class="space-y-6 hidden">
+            <div class="unsc-box p-6 rounded-xl flex items-center justify-between">
+                <div>
+                    <h2 class="font-orbitron text-2xl font-bold text-white uppercase">TABLA GENERAL DE POSICIONES</h2>
+                    <p class="text-xs text-slate-400 font-mono mt-1">Acumulativo de Victorias, Derrotas y Bajas de todas las rondas</p>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="unsc-box rounded-xl overflow-hidden border border-slate-800">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-900/90 text-unsc-cyan font-orbitron text-xs uppercase tracking-wider border-b border-slate-800">
+                            <tr>
+                                <th class="py-4 px-4 text-center">Pos</th>
+                                <th class="py-4 px-4">Spartan</th>
+                                <th class="py-4 px-4 text-center">Partidas</th>
+                                <th class="py-4 px-4 text-center">Victorias</th>
+                                <th class="py-4 px-4 text-center">Derrotas</th>
+                                <th class="py-4 px-4 text-center">Bajas (K)</th>
+                                <th class="py-4 px-4 text-center">Muertes (D)</th>
+                                <th class="py-4 px-4 text-center">Ratio K/D</th>
+                            </tr>
+                        </thead>
+                        <tbody id="standings-table-body" class="divide-y divide-slate-800/60 font-sans">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: CLIPS & HIGHLIGHTS -->
+        <section id="sec-clips" class="space-y-6 hidden">
+            <div class="unsc-box p-6 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="font-orbitron text-2xl font-bold text-white uppercase flex items-center gap-3">
+                        <i class="fa-solid fa-clapperboard text-unsc-cyan"></i> GALERÍA DE CLIPS Y MEMES
+                    </h2>
+                    <p class="text-xs text-slate-400 font-mono mt-1">Revive las mejores jugadas, bofetadas tácticas y momentos divertidos del torneo</p>
+                </div>
+                <button onclick="openAddClipModal()" class="unsc-btn bg-unsc-cyan hover:bg-cyan-400 text-slate-950 font-orbitron font-bold text-xs px-5 py-2.5 flex items-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Subir Clip
+                </button>
+            </div>
+
+            <!-- Clips Filters -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 text-xs font-mono">
+                <button onclick="filterClips('all')" id="clip-filter-all" class="px-3 py-1.5 rounded-lg bg-unsc-cyan/20 border border-unsc-cyan text-unsc-cyan font-bold">Todos</button>
+                <button onclick="filterClips('fail')" id="clip-filter-fail" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white">Fails & Memes</button>
+                <button onclick="filterClips('highlight')" id="clip-filter-highlight" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white">Highlights</button>
+                <button onclick="filterClips('clutch')" id="clip-filter-clutch" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white">Clutches 1v1</button>
+            </div>
+
+            <!-- Clips Grid -->
+            <div id="clips-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamic Clip Cards populated via Javascript -->
+            </div>
+        </section>
+
+        <!-- SECTION 6: RULES AND MAPS -->
+        <section id="sec-rules" class="space-y-6 hidden">
+            <div class="unsc-box p-6 rounded-xl">
+                <h2 class="font-orbitron text-2xl font-bold text-white uppercase">CONFIGURACIÓN TÁCTICA Y REGLAS</h2>
+                <p class="text-xs text-slate-400 font-mono mt-1">Parámetros oficiales del torneo Halo Reach 1v1 Slayer</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Map Spotlight Card -->
+                <div class="unsc-box rounded-xl overflow-hidden">
+                    <div class="h-52 bg-cover bg-center relative" style="background-image: url('2062820545_preview_MLG Sanctuary.jpg'); filter: brightness(1.15) contrast(1.05);">
+                        <div class="absolute inset-0 bg-gradient-to-t from-unsc-card via-transparent to-black/20"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="px-2.5 py-1 rounded bg-unsc-cyan/20 border border-unsc-cyan text-unsc-cyan font-mono text-xs uppercase font-bold">MAPA OFICIAL</span>
+                            <h3 class="font-orbitron text-2xl font-extrabold text-white mt-1 drop-shadow-md">SANTUARIO (SANCTUARY)</h3>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-3 text-sm text-slate-300">
+                        <p>Diseño simétrico clásico adaptado para enfrentamientos 1v1 donde la precisión, el control de las líneas de visión y el timing de granadas determinan al vencedor.</p>
+                        <div class="grid grid-cols-2 gap-3 pt-2 font-mono text-xs text-slate-400">
+                            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+                                <span class="block text-unsc-cyan">Armas de Mapa:</span>
+                                <span>Rifle de Francotirador / Escopeta</span>
+                            </div>
+                            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+                                <span class="block text-unsc-cyan">Equipamiento:</span>
+                                <span>Sprint / Esquiva</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Match Rules Card -->
+                <div class="unsc-box rounded-xl p-6 space-y-4">
+                    <h3 class="font-orbitron text-lg font-bold text-white border-b border-slate-800 pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-unsc-cyan"></i> REGLAMENTO OFICIAL 1V1
+                    </h3>
+                    <ul class="space-y-3 text-sm text-slate-300 font-sans">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-unsc-cyan mt-1"></i>
+                            <span><strong>Límite de Bajas:</strong> La partida finaliza inmediatamente cuando un Spartan alcanza <strong>15 bajas</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-unsc-cyan mt-1"></i>
+                            <span><strong>Límite de Tiempo:</strong> 10 minutos por partida. Si se agota el tiempo, gana el jugador con más bajas.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-unsc-cyan mt-1"></i>
+                            <span><strong>Armamento Inicial:</strong> DMR / Rifle de Batalla + 2 Granadas Frag.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-unsc-cyan mt-1"></i>
+                            <span><strong>Radar Táctico:</strong> Radar de movimiento estándar activado a 25 metros.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-unsc-cyan mt-1"></i>
+                            <span><strong>Empates:</strong> En caso de igualar en bajas al agotarse el tiempo, se jugará una prórroga a 1 baja (Muerte Súbita).</span>
+                        </li>
+                    </ul>
+
+                    <div class="pt-4 border-t border-slate-800">
+                        <button onclick="confirmResetTournamentData()" class="w-full unsc-btn bg-red-950/60 hover:bg-red-900 border border-red-500/40 text-red-300 font-orbitron font-bold text-xs py-3 rounded flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-triangle-exclamation"></i> REINICIAR TODO EL TORNEO (TABLA Y SPARTANS)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800 bg-unsc-bg/80 py-4 text-center text-xs font-mono text-slate-500">
+        UNSC TACTICAL TOURNAMENT SYSTEM &bull; HALO REACH 1V1 POUSIZA
+    </footer>
+
+
+    <!-- MODAL: ADD/EDIT SPARTAN -->
+    <div id="modal-spartan" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="unsc-box max-w-md w-full rounded-2xl p-6 space-y-4 border border-unsc-cyan/40">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 id="modal-spartan-title" class="font-orbitron font-bold text-lg text-white">REGISTRAR SPARTAN</h3>
+                <button onclick="closeSpartanModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form id="form-spartan" onsubmit="saveSpartan(event)" class="space-y-4">
+                <input type="hidden" id="spartan-id">
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 uppercase mb-1">Gamertag</label>
+                    <input type="text" id="spartan-name" required placeholder="Ej. Noble_Six" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-unsc-cyan">
+                </div>
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 uppercase mb-1">Plataforma</label>
+                    <select id="spartan-platform" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-unsc-cyan">
+                        <option value="Xbox">Xbox Series X|S / One</option>
+                        <option value="PC">PC (Steam / Game Pass)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 uppercase mb-1">Color de Armadura</label>
+                    <div class="flex items-center gap-3">
+                        <input type="color" id="spartan-color" value="#06B6D4" class="w-12 h-10 bg-transparent cursor-pointer rounded">
+                        <span class="text-xs font-mono text-slate-400">Insignia del Spartan</span>
+                    </div>
+                </div>
+                <div class="pt-4 flex justify-end gap-2">
+                    <button type="button" onclick="closeSpartanModal()" class="px-4 py-2 rounded-lg font-orbitron text-xs text-slate-400 hover:bg-slate-800">Cancelar</button>
+                    <button type="submit" class="unsc-btn bg-unsc-cyan text-slate-950 font-orbitron font-bold text-xs px-5 py-2">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: SCORE MATCH -->
+    <div id="modal-score" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="unsc-box max-w-lg w-full rounded-2xl p-6 space-y-6 border border-unsc-cyan/40">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-orbitron font-bold text-lg text-white">REGISTRAR RESULTADO DE COMBATE</h3>
+                <button onclick="closeScoreModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <form id="form-score" onsubmit="saveMatchScore(event)" class="space-y-6">
+                <input type="hidden" id="score-match-id">
+                
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <!-- Spartan A -->
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                        <span id="score-name-a" class="font-orbitron font-bold text-white text-sm block truncate">Spartan A</span>
+                        <label class="block text-xs font-mono text-slate-400">Bajas (Kills)</label>
+                        <input type="number" id="score-kills-a" min="0" max="15" required class="w-full text-center bg-slate-950 border border-unsc-cyan/50 rounded-lg py-2 font-orbitron text-2xl text-unsc-cyan">
+                    </div>
+
+                    <!-- Spartan B -->
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                        <span id="score-name-b" class="font-orbitron font-bold text-white text-sm block truncate">Spartan B</span>
+                        <label class="block text-xs font-mono text-slate-400">Bajas (Kills)</label>
+                        <input type="number" id="score-kills-b" min="0" max="15" required class="w-full text-center bg-slate-950 border border-unsc-cyan/50 rounded-lg py-2 font-orbitron text-2xl text-unsc-cyan">
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-3">
+                    <label class="block text-xs font-mono text-unsc-cyan uppercase font-bold flex items-center gap-1.5">
+                        <i class="fa-solid fa-video"></i> Adjuntar Clip / Highlight de la Partida
+                    </label>
+                    <div>
+                        <span class="block text-[11px] text-slate-400 mb-1">Cargar archivo de video local (.mp4, .webm):</span>
+                        <input type="file" id="score-video-file" accept="video/*" class="w-full text-xs text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-unsc-cyan/20 file:text-unsc-cyan hover:file:bg-unsc-cyan/30 cursor-pointer">
+                    </div>
+                    <div class="text-center font-mono text-xs text-slate-500">- O BIEN -</div>
+                    <div>
+                        <span class="block text-[11px] text-slate-400 mb-1">Enlace de video (YouTube / Twitch / URL directa):</span>
+                        <input type="url" id="score-video-url" placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-xs focus:outline-none focus:border-unsc-cyan">
+                    </div>
+                </div>
+
+                <div class="pt-2 flex justify-end gap-2">
+                    <button type="button" onclick="closeScoreModal()" class="px-4 py-2 rounded-lg font-orbitron text-xs text-slate-400 hover:bg-slate-800">Cancelar</button>
+                    <button type="submit" class="unsc-btn bg-unsc-cyan text-slate-950 font-orbitron font-bold text-xs px-6 py-2.5">Guardar Resultado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: VIDEO PLAYER -->
+    <div id="modal-video" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="unsc-box max-w-3xl w-full rounded-2xl p-6 space-y-4 border border-unsc-cyan/50">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 id="video-modal-title" class="font-orbitron font-bold text-lg text-white flex items-center gap-2">
+                    <i class="fa-solid fa-circle-play text-red-500"></i> HIGHLIGHT DE COMBATE 1V1
+                </h3>
+                <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="video-container" class="aspect-video w-full rounded-xl overflow-hidden bg-black flex items-center justify-center border border-slate-800">
+                <!-- Dynamic Video player injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: MANUAL MATCH CREATION -->
+    <div id="modal-manual-match" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="unsc-box max-w-md w-full rounded-2xl p-6 space-y-4 border border-unsc-cyan/40">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-orbitron font-bold text-lg text-white">CREAR ENCUENTRO MANUAL</h3>
+                <button onclick="closeManualMatchModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form id="form-manual-match" onsubmit="saveManualMatch(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 uppercase mb-1">Spartan 1</label>
+                    <select id="manual-spartan-a" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-unsc-cyan">
+                        <!-- Dynamic options -->
+                    </select>
+                </div>
+                <div class="text-center font-orbitron font-bold text-unsc-cyan text-xs uppercase tracking-widest my-1">
+                    VS
+                </div>
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 uppercase mb-1">Spartan 2</label>
+                    <select id="manual-spartan-b" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-unsc-cyan">
+                        <!-- Dynamic options -->
+                    </select>
+                </div>
+                <div class="pt-4 flex justify-end gap-2">
+                    <button type="button" onclick="closeManualMatchModal()" class="px-4 py-2 rounded-lg font-orbitron text-xs text-slate-400 hover:bg-slate-800">Cancelar</button>
+                    <button type="submit" class="unsc-btn bg-unsc-cyan text-slate-950 font-orbitron font-bold text-xs px-5 py-2">Agregar Encuentro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD CLIP -->
+    <div id="modal-add-clip" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="unsc-box max-w-md w-full rounded-2xl p-6 space-y-4 border border-unsc-cyan/40">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-orbitron font-bold text-lg text-white flex items-center gap-2">
+                    <i class="fa-solid fa-film text-unsc-cyan"></i> REGISTRAR NUEVO CLIP
+                </h3>
+                <button onclick="closeAddClipModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form id="form-add-clip" onsubmit="saveNewClip(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 uppercase mb-1">Título del Clip</label>
+                    <input type="text" id="clip-title" required placeholder="Ej. Lo hicimos bastante bien..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-unsc-cyan">
+                </div>
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 uppercase mb-1">Spartan Protagonista</label>
+                    <select id="clip-spartan" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-unsc-cyan">
+                        <!-- Dynamic options -->
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 uppercase mb-1">Categoría</label>
+                    <select id="clip-category" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-unsc-cyan">
+                        <option value="fail">Fail & Meme</option>
+                        <option value="highlight">Highlight / Bajas</option>
+                        <option value="clutch">Clutch 1v1</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 uppercase mb-1">Cargar Archivo de Video Local (.mp4)</label>
+                    <input type="file" id="clip-file" accept="video/*" class="w-full text-xs text-slate-300 file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-unsc-cyan/20 file:text-unsc-cyan hover:file:bg-unsc-cyan/30 cursor-pointer">
+                </div>
+                <div class="text-center font-mono text-xs text-slate-500">- O BIEN ENLACE DIRECTO -</div>
+                <div>
+                    <input type="url" id="clip-url" placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-xs focus:outline-none focus:border-unsc-cyan">
+                </div>
+                <div class="pt-4 flex justify-end gap-2">
+                    <button type="button" onclick="closeAddClipModal()" class="px-4 py-2 rounded-lg font-orbitron text-xs text-slate-400 hover:bg-slate-800">Cancelar</button>
+                    <button type="submit" class="unsc-btn bg-unsc-cyan text-slate-950 font-orbitron font-bold text-xs px-5 py-2">Guardar Clip</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CONFIRMATION DIALOG -->
+    <div id="modal-confirm" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="unsc-box max-w-sm w-full rounded-2xl p-6 space-y-4 border border-amber-500/40 text-center">
+            <div class="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/40 text-amber-400 flex items-center justify-center text-2xl mx-auto">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 id="confirm-title" class="font-orbitron font-bold text-lg text-white">¿CONFIRMAR ACCIÓN?</h3>
+            <p id="confirm-msg" class="text-xs text-slate-300 font-sans leading-relaxed">¿Estás seguro de continuar?</p>
+            <div class="pt-2 flex justify-center gap-3">
+                <button id="confirm-btn-cancel" class="px-4 py-2 rounded-lg font-orbitron text-xs text-slate-400 hover:bg-slate-800">Cancelar</button>
+                <button id="confirm-btn-ok" class="unsc-btn bg-amber-500 hover:bg-amber-400 text-slate-950 font-orbitron font-bold text-xs px-5 py-2">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // GLOBAL STATE
+        let appState = {
+            spartans: [
+                { id: '1', name: 'Noble_Leader', platform: 'Xbox', color: '#06B6D4', wins: 0, losses: 0, kills: 0, deaths: 0 },
+                { id: '2', name: 'LoneWolf_99', platform: 'PC', color: '#EF4444', wins: 0, losses: 0, kills: 0, deaths: 0 },
+                { id: '3', name: 'Spartan_312', platform: 'Xbox', color: '#10B981', wins: 0, losses: 0, kills: 0, deaths: 0 },
+                { id: '4', name: 'Ghost_Reach', platform: 'PC', color: '#F59E0B', wins: 0, losses: 0, kills: 0, deaths: 0 },
+                { id: '5', name: 'Kat_UNSC', platform: 'Xbox', color: '#8B5CF6', wins: 0, losses: 0, kills: 0, deaths: 0 },
+                { id: '6', name: 'Emile_Shot', platform: 'PC', color: '#EC4899', wins: 0, losses: 0, kills: 0, deaths: 0 }
+            ],
+            matches: [],
+            clips: [
+                {
+                    id: 'clip_default_1',
+                    title: 'Lo hicimos bastante bien... | Traición y Suicidio Épico',
+                    spartanName: 'ThawingMan782 / Thrasher TyF',
+                    category: 'fail',
+                    thumb: 'https://placehold.co/600x337/0f172a/06b6d4?text=HALO+REACH+FAIL+%26+MEME',
+                    url: '', // Video state or loaded file
+                    views: 142,
+                    date: 'Hace un momento'
+                },
+                {
+                    id: 'clip_default_2',
+                    title: 'Triple Kill con DMR en Santuario',
+                    spartanName: 'Noble_Leader',
+                    category: 'highlight',
+                    thumb: 'https://placehold.co/600x337/0f172a/10b981?text=TRIPLE+KILL+SANCTUARY',
+                    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                    views: 89,
+                    date: 'Ayer'
+                }
+            ],
+            timer: {
+                seconds: 600,
+                interval: null,
+                running: false
+            }
+        };
+
+        let currentClipFilter = 'all';
+        let confirmCallback = null;
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            updateUI();
+        });
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('halo_reach_pousiza_state');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.spartans) appState.spartans = parsed.spartans;
+                    if (parsed.matches) appState.matches = parsed.matches;
+                    if (parsed.clips) appState.clips = parsed.clips;
+                } catch (e) {
+                    console.error("Error loading local state:", e);
+                }
+            }
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('halo_reach_pousiza_state', JSON.stringify({
+                spartans: appState.spartans,
+                matches: appState.matches,
+                clips: appState.clips
+            }));
+        }
+
+        function switchTab(tabId) {
+            const sections = ['dashboard', 'spartans', 'bracket', 'standings', 'clips', 'rules'];
+            sections.forEach(s => {
+                const el = document.getElementById(`sec-${s}`);
+                if (el) el.classList.add('hidden');
+
+                const navEl = document.getElementById(`nav-${s}`);
+                if (navEl) {
+                    navEl.className = 'nav-tab px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm tracking-wider uppercase transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800';
+                }
+                const mobNavEl = document.getElementById(`mobile-nav-${s}`);
+                if (mobNavEl) {
+                    mobNavEl.className = 'mobile-nav-tab px-3 py-1.5 rounded-md font-rajdhani font-semibold tracking-wider text-slate-400 whitespace-nowrap';
+                }
+            });
+
+            const targetSec = document.getElementById(`sec-${tabId}`);
+            if (targetSec) targetSec.classList.remove('hidden');
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.className = 'nav-tab px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm tracking-wider uppercase transition-all flex items-center gap-2 text-unsc-cyan bg-unsc-cyan/10 border border-unsc-cyan/40';
+            }
+            const activeMobNav = document.getElementById(`mobile-nav-${tabId}`);
+            if (activeMobNav) {
+                activeMobNav.className = 'mobile-nav-tab px-3 py-1.5 rounded-md font-rajdhani font-semibold tracking-wider text-unsc-cyan bg-unsc-cyan/10 whitespace-nowrap';
+            }
+        }
+
+        function updateUI() {
+            renderDashboard();
+            renderSpartans();
+            renderMatches();
+            renderStandings();
+            renderClips();
+        }
+
+        function renderDashboard() {
+            const totalSpartans = appState.spartans.length;
+            const totalMatches = appState.matches.length;
+            let totalKills = 0;
+            appState.spartans.forEach(s => { totalKills += (s.kills || 0); });
+
+            const elSpartans = document.getElementById('dash-total-spartans');
+            const elMatches = document.getElementById('dash-total-matches');
+            const elKills = document.getElementById('dash-total-kills');
+            const elLeader = document.getElementById('dash-leader-name');
+
+            if (elSpartans) elSpartans.textContent = totalSpartans;
+            if (elMatches) elMatches.textContent = totalMatches;
+            if (elKills) elKills.textContent = totalKills;
+
+            let leader = '---';
+            if (appState.spartans.length > 0) {
+                let sorted = [...appState.spartans].sort((a,b) => (b.wins || 0) - (a.wins || 0) || (b.kills || 0) - (a.kills || 0));
+                if (sorted[0]) leader = sorted[0].name;
+            }
+            if (elLeader) elLeader.textContent = leader;
+
+            const previewContainer = document.getElementById('dash-matches-preview');
+            if (!previewContainer) return;
+            previewContainer.innerHTML = '';
+
+            const activeMatches = appState.matches.slice(-3);
+            if (activeMatches.length === 0) {
+                previewContainer.innerHTML = `<div class="p-4 text-center text-slate-500 font-mono text-xs">No hay enfrentamientos programados. Ve a "Llaves" para generar cruces.</div>`;
+                return;
+            }
+
+            activeMatches.forEach(m => {
+                const spA = appState.spartans.find(s => s.id === m.spartanAId);
+                const spB = appState.spartans.find(s => s.id === m.spartanBId);
+                const nameA = spA ? spA.name : 'Desconocido';
+                const nameB = spB ? spB.name : 'Desconocido';
+
+                const div = document.createElement('div');
+                div.className = 'p-3 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center justify-between text-xs font-mono';
+                div.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-white font-bold">${nameA}</span>
+                        <span class="text-slate-500">vs</span>
+                        <span class="text-white font-bold">${nameB}</span>
+                    </div>
+                    <div>
+                        ${m.completed 
+                            ? `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">${m.scoreA} - ${m.scoreB}</span>` 
+                            : `<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold">PENDIENTE</span>`}
+                    </div>
+                `;
+                previewContainer.appendChild(div);
+            });
+        }
+
+        function renderSpartans() {
+            const grid = document.getElementById('spartans-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            if (appState.spartans.length === 0) {
+                grid.innerHTML = `<div class="col-span-full p-8 text-center text-slate-500 font-mono text-xs unsc-box rounded-xl">No hay Spartans registrados. Haz clic en "Nuevo Spartan" para agregar uno.</div>`;
+                return;
+            }
+
+            appState.spartans.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'unsc-box p-5 rounded-xl space-y-4 flex flex-col justify-between border border-slate-800 hover:border-unsc-cyan/40 transition-all';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-slate-950 font-orbitron" style="background-color: ${s.color}">
+                                ${s.name.substring(0, 2).toUpperCase()}
+                            </div>
+                            <div>
+                                <h4 class="font-orbitron font-bold text-white text-base">${s.name}</h4>
+                                <span class="text-xs font-mono text-slate-400"><i class="fa-solid fa-gamepad text-unsc-cyan mr-1"></i>${s.platform}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <button onclick="openEditSpartanModal('${s.id}')" class="p-2 text-slate-400 hover:text-unsc-cyan text-xs"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="deleteSpartan('${s.id}')" class="p-2 text-slate-400 hover:text-red-400 text-xs"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2 pt-3 border-t border-slate-800/80 text-center text-xs font-mono">
+                        <div class="bg-slate-900/80 p-2 rounded">
+                            <span class="block text-slate-500 text-[10px]">VIC</span>
+                            <span class="font-bold text-emerald-400">${s.wins || 0}</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2 rounded">
+                            <span class="block text-slate-500 text-[10px]">DER</span>
+                            <span class="font-bold text-slate-400">${s.losses || 0}</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2 rounded">
+                            <span class="block text-slate-500 text-[10px]">KILLS</span>
+                            <span class="font-bold text-unsc-cyan">${s.kills || 0}</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2 rounded">
+                            <span class="block text-slate-500 text-[10px]">MUERTES</span>
+                            <span class="font-bold text-slate-400">${s.deaths || 0}</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderMatches() {
+            const list = document.getElementById('matches-list');
+            if (!list) return;
+            list.innerHTML = '';
+
+            if (appState.matches.length === 0) {
+                list.innerHTML = `<div class="col-span-full p-8 text-center text-slate-500 font-mono text-xs unsc-box rounded-xl">No hay enfrentamientos generados. Usa "Sorteo Aleatorio" o "Cruce Manual".</div>`;
+                return;
+            }
+
+            appState.matches.forEach((m, idx) => {
+                const spA = appState.spartans.find(s => s.id === m.spartanAId);
+                const spB = appState.spartans.find(s => s.id === m.spartanBId);
+                const nameA = spA ? spA.name : 'Spartan Eliminado';
+                const nameB = spB ? spB.name : 'Spartan Eliminado';
+
+                const card = document.createElement('div');
+                card.className = 'unsc-box p-5 rounded-xl space-y-4 border border-slate-800 hover:border-unsc-cyan/40 transition-all';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2 text-xs font-mono">
+                        <span class="text-unsc-cyan font-bold">ENCUENTRO #1V1-${idx + 1}</span>
+                        <div class="flex items-center gap-2">
+                            ${m.completed 
+                                ? '<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">FINALIZADO</span>' 
+                                : '<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold">EN ESPERA</span>'}
+                            <button onclick="deleteMatch('${m.id}')" class="text-slate-500 hover:text-red-400 text-xs ml-1"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-5 items-center text-center py-2">
+                        <div class="col-span-2">
+                            <p class="font-orbitron font-bold text-sm ${m.winnerId === m.spartanAId ? 'text-amber-400 unsc-glow' : 'text-white'} truncate">${nameA}</p>
+                            <span class="text-2xl font-orbitron font-bold ${m.completed ? 'text-unsc-cyan' : 'text-slate-600'}">${m.completed ? m.scoreA : 0}</span>
+                        </div>
+                        <div class="col-span-1 font-orbitron font-bold text-xs text-slate-500">
+                            VS
+                        </div>
+                        <div class="col-span-2">
+                            <p class="font-orbitron font-bold text-sm ${m.winnerId === m.spartanBId ? 'text-amber-400 unsc-glow' : 'text-white'} truncate">${nameB}</p>
+                            <span class="text-2xl font-orbitron font-bold ${m.completed ? 'text-unsc-cyan' : 'text-slate-600'}">${m.completed ? m.scoreB : 0}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 gap-2">
+                        <button onclick="openScoreModal('${m.id}')" class="unsc-btn bg-unsc-cyan/20 hover:bg-unsc-cyan/30 text-unsc-cyan border border-unsc-cyan/40 text-xs font-orbitron py-2 px-3 rounded flex-grow flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-pen-to-square"></i> ${m.completed ? 'Editar Resultado' : 'Anotar Resultado'}
+                        </button>
+                        ${m.videoUrl ? `
+                            <button onclick="playMatchVideo('${m.id}')" class="unsc-btn bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 text-xs font-orbitron py-2 px-3 rounded flex items-center gap-1.5">
+                                <i class="fa-solid fa-play"></i> Clip
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        function generateRandomBracket() {
+            if (appState.spartans.length < 2) {
+                showConfirmModal("Atención", "Necesitas al menos 2 Spartans registrados para realizar el sorteo.", null, false);
+                return;
+            }
+
+            const shuffled = [...appState.spartans].sort(() => 0.5 - Math.random());
+            const newMatches = [];
+
+            for (let i = 0; i < shuffled.length - 1; i += 2) {
+                newMatches.push({
+                    id: 'm_' + Date.now() + '_' + i,
+                    spartanAId: shuffled[i].id,
+                    spartanBId: shuffled[i + 1].id,
+                    scoreA: 0,
+                    scoreB: 0,
+                    completed: false,
+                    winnerId: null
+                });
+            }
+
+            appState.matches = [...appState.matches, ...newMatches];
+            saveToLocalStorage();
+            updateUI();
+        }
+
+        function confirmResetBracket() {
+            showConfirmModal(
+                "Reiniciar Cruces",
+                "¿Seguro que deseas eliminar todos los enfrentamientos generados?",
+                () => {
+                    appState.matches.forEach(m => {
+                        if (m.completed) revertMatchStats(m);
+                    });
+                    appState.matches = [];
+                    saveToLocalStorage();
+                    updateUI();
+                }
+            );
+        }
+
+        function deleteMatch(matchId) {
+            showConfirmModal(
+                "Eliminar Encuentro",
+                "¿Deseas eliminar este enfrentamiento?",
+                () => {
+                    const match = appState.matches.find(m => m.id === matchId);
+                    if (match && match.completed) {
+                        revertMatchStats(match);
+                    }
+                    appState.matches = appState.matches.filter(m => m.id !== matchId);
+                    saveToLocalStorage();
+                    updateUI();
+                }
+            );
+        }
+
+        function renderClips() {
+            const grid = document.getElementById('clips-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            let filtered = appState.clips || [];
+            if (currentClipFilter !== 'all') {
+                filtered = filtered.filter(c => c.category === currentClipFilter);
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full p-8 text-center text-slate-500 font-mono text-xs unsc-box rounded-xl">No hay clips registrados en esta categoría. ¡Sube uno nuevo!</div>`;
+                return;
+            }
+
+            filtered.forEach(clip => {
+                const card = document.createElement('div');
+                card.className = 'unsc-box rounded-xl overflow-hidden border border-slate-800 hover:border-unsc-cyan/50 transition-all flex flex-col justify-between';
+                
+                const categoryBadge = clip.category === 'fail' 
+                    ? '<span class="px-2 py-0.5 rounded bg-red-500/20 border border-red-500/40 text-red-400 text-[10px] font-mono font-bold uppercase">FAIL / MEME</span>'
+                    : (clip.category === 'clutch' 
+                        ? '<span class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-400 text-[10px] font-mono font-bold uppercase">CLUTCH</span>'
+                        : '<span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-mono font-bold uppercase">HIGHLIGHT</span>');
+
+                card.innerHTML = `
+                    <div class="relative group cursor-pointer" onclick="playClipVideo('${clip.id}')">
+                        <img src="${clip.thumb}" alt="${clip.title}" class="w-full h-44 object-cover">
+                        <div class="absolute inset-0 bg-slate-950/60 group-hover:bg-slate-950/30 transition-all flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-unsc-cyan text-slate-950 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform shadow-lg">
+                                <i class="fa-solid fa-play ml-0.5"></i>
+                            </div>
+                        </div>
+                        <div class="absolute top-3 left-3">
+                            ${categoryBadge}
+                        </div>
+                    </div>
+                    <div class="p-4 space-y-3 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-orbitron font-bold text-white text-sm line-clamp-2">${clip.title}</h4>
+                            <p class="text-xs font-mono text-unsc-cyan mt-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-user-shield"></i> ${clip.spartanName || 'Spartan'}
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between border-t border-slate-800/80 pt-2 text-[11px] font-mono text-slate-500">
+                            <span><i class="fa-solid fa-eye mr-1"></i>${clip.views || 0} vistas</span>
+                            <button onclick="deleteClip('${clip.id}')" class="text-slate-500 hover:text-red-400 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterClips(category) {
+            currentClipFilter = category;
+            const btnIds = ['all', 'fail', 'highlight', 'clutch'];
+            btnIds.forEach(id => {
+                const btn = document.getElementById(`clip-filter-${id}`);
+                if (btn) {
+                    if (id === category) {
+                        btn.className = 'px-3 py-1.5 rounded-lg bg-unsc-cyan/20 border border-unsc-cyan text-unsc-cyan font-bold';
+                    } else {
+                        btn.className = 'px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white';
+                    }
+                }
+            });
+            renderClips();
+        }
+
+        function openAddClipModal() {
+            const select = document.getElementById('clip-spartan');
+            select.innerHTML = `<option value="General">General / Anon</option>`;
+            appState.spartans.forEach(s => {
+                select.innerHTML += `<option value="${s.name}">${s.name}</option>`;
+            });
+
+            document.getElementById('clip-title').value = '';
+            document.getElementById('clip-url').value = '';
+            document.getElementById('clip-file').value = '';
+            document.getElementById('modal-add-clip').classList.remove('hidden');
+        }
+
+        function closeAddClipModal() {
+            document.getElementById('modal-add-clip').classList.add('hidden');
+        }
+
+        function saveNewClip(e) {
+            e.preventDefault();
+            const title = document.getElementById('clip-title').value.trim();
+            const spartanName = document.getElementById('clip-spartan').value;
+            const category = document.getElementById('clip-category').value;
+            const fileInput = document.getElementById('clip-file');
+            const urlInput = document.getElementById('clip-url').value.trim();
+
+            if (!title) return;
+
+            let videoUrl = urlInput;
+            if (fileInput.files && fileInput.files[0]) {
+                videoUrl = URL.createObjectURL(fileInput.files[0]);
+            }
+
+            const newClip = {
+                id: 'clip_' + Date.now(),
+                title,
+                spartanName,
+                category,
+                thumb: category === 'fail' ? 'https://placehold.co/600x337/0f172a/ef4444?text=FAIL+%26+MEME' : 'https://placehold.co/600x337/0f172a/06b6d4?text=HALO+REACH+CLIP',
+                url: videoUrl,
+                views: 1,
+                date: 'Reciente'
+            };
+
+            appState.clips.unshift(newClip);
+            saveToLocalStorage();
+            closeAddClipModal();
+            renderClips();
+        }
+
+        function playClipVideo(clipId) {
+            const clip = appState.clips.find(c => c.id === clipId);
+            if (!clip) return;
+
+            clip.views = (clip.views || 0) + 1;
+            saveToLocalStorage();
+
+            const container = document.getElementById('video-container');
+            container.innerHTML = '';
+
+            let url = clip.url;
+
+            if (url && (url.includes('youtube.com/watch') || url.includes('youtu.be/'))) {
+                let videoId = '';
+                if (url.includes('youtu.be/')) {
+                    videoId = url.split('youtu.be/')[1].split('?')[0];
+                } else {
+                    const urlParams = new URLSearchParams(new URL(url).search);
+                    videoId = urlParams.get('v');
+                }
+                container.innerHTML = `<iframe class="w-full h-full rounded-xl" src="https://www.youtube.com/embed/${videoId}?autoplay=1" title="Halo Reach Highlight" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else if (url) {
+                container.innerHTML = `<video class="w-full h-full rounded-xl" controls autoplay src="${url}">Tu navegador no soporta el reproductor de video.</video>`;
+            } else {
+                container.innerHTML = `
+                    <div class="p-8 text-center space-y-3">
+                        <i class="fa-solid fa-circle-exclamation text-amber-400 text-4xl"></i>
+                        <p class="font-orbitron font-bold text-white text-base">${clip.title}</p>
+                        <p class="text-xs font-mono text-slate-400">Este clip fue cargado sin un enlace directo de video. Puedes subir tu archivo MP4 con el botón "Subir Clip".</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('video-modal-title').innerHTML = `<i class="fa-solid fa-circle-play text-unsc-cyan"></i> ${clip.title}`;
+            document.getElementById('modal-video').classList.remove('hidden');
+        }
+
+        function deleteClip(id) {
+            showConfirmModal(
+                "Eliminar Clip",
+                "¿Seguro que deseas eliminar este clip de la galería?",
+                () => {
+                    appState.clips = appState.clips.filter(c => c.id !== id);
+                    saveToLocalStorage();
+                    renderClips();
+                }
+            );
+        }
+
+        function renderStandings() {
+            const tbody = document.getElementById('standings-table-body');
+            tbody.innerHTML = '';
+
+            let sorted = [...appState.spartans].map(s => {
+                let gamesPlayed = (s.wins || 0) + (s.losses || 0);
+                let kdRatio = (s.deaths || 0) > 0 ? ((s.kills || 0) / s.deaths).toFixed(2) : (s.kills || 0).toFixed(2);
+                return { ...s, gamesPlayed, kdRatio: parseFloat(kdRatio) };
+            });
+
+            sorted.sort((a, b) => b.wins - a.wins || b.kills - a.kills || b.kdRatio - a.kdRatio);
+
+            if (sorted.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-6 text-slate-500 font-mono text-xs">No hay datos de posiciones registrados.</td></tr>`;
+                return;
+            }
+
+            sorted.forEach((s, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-900/50 transition-colors";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 text-center font-orbitron font-bold ${idx === 0 ? 'text-amber-400 text-base' : 'text-slate-400'}">
+                        ${idx === 0 ? '<i class="fa-solid fa-trophy mr-1"></i>1' : idx + 1}
+                    </td>
+                    <td class="py-3 px-4 font-bold text-white flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full inline-block" style="background-color: ${s.color}"></span>
+                        ${s.name}
+                    </td>
+                    <td class="py-3 px-4 text-center font-mono text-slate-300">${s.gamesPlayed}</td>
+                    <td class="py-3 px-4 text-center font-mono font-bold text-emerald-400">${s.wins || 0}</td>
+                    <td class="py-3 px-4 text-center font-mono text-slate-400">${s.losses || 0}</td>
+                    <td class="py-3 px-4 text-center font-mono font-bold text-unsc-cyan">${s.kills || 0}</td>
+                    <td class="py-3 px-4 text-center font-mono text-slate-400">${s.deaths || 0}</td>
+                    <td class="py-3 px-4 text-center font-mono font-bold text-purple-400">${s.kdRatio}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openAddPlayerModal() {
+            document.getElementById('spartan-id').value = '';
+            document.getElementById('spartan-name').value = '';
+            document.getElementById('spartan-platform').value = 'Xbox';
+            document.getElementById('spartan-color').value = '#06B6D4';
+            document.getElementById('modal-spartan-title').textContent = 'REGISTRAR SPARTAN';
+            document.getElementById('modal-spartan').classList.remove('hidden');
+        }
+
+        function openEditSpartanModal(id) {
+            const spartan = appState.spartans.find(s => s.id === id);
+            if (!spartan) return;
+
+            document.getElementById('spartan-id').value = spartan.id;
+            document.getElementById('spartan-name').value = spartan.name;
+            document.getElementById('spartan-platform').value = spartan.platform;
+            document.getElementById('spartan-color').value = spartan.color;
+            document.getElementById('modal-spartan-title').textContent = 'EDITAR SPARTAN';
+            document.getElementById('modal-spartan').classList.remove('hidden');
+        }
+
+        function closeSpartanModal() {
+            document.getElementById('modal-spartan').classList.add('hidden');
+        }
+
+        function saveSpartan(e) {
+            e.preventDefault();
+            const id = document.getElementById('spartan-id').value;
+            const name = document.getElementById('spartan-name').value.trim();
+            const platform = document.getElementById('spartan-platform').value;
+            const color = document.getElementById('spartan-color').value;
+
+            if (!name) return;
+
+            if (id) {
+                // Edit
+                const spartan = appState.spartans.find(s => s.id === id);
+                if (spartan) {
+                    spartan.name = name;
+                    spartan.platform = platform;
+                    spartan.color = color;
+                }
+            } else {
+                // Add
+                appState.spartans.push({
+                    id: 'sp_' + Date.now(),
+                    name,
+                    platform,
+                    color,
+                    wins: 0,
+                    losses: 0,
+                    kills: 0,
+                    deaths: 0
+                });
+            }
+
+            saveToLocalStorage();
+            closeSpartanModal();
+            updateUI();
+        }
+
+        function deleteSpartan(id) {
+            showConfirmModal(
+                "Eliminar Spartan",
+                "¿Seguro que deseas eliminar este Spartan de la lista?",
+                () => {
+                    appState.spartans = appState.spartans.filter(s => s.id !== id);
+                    appState.matches = appState.matches.filter(m => m.spartanAId !== id && m.spartanBId !== id);
+                    saveToLocalStorage();
+                    updateUI();
+                }
+            );
+        }
+
+        // MANUAL MATCH CREATION
+        function openManualMatchModal() {
+            if (appState.spartans.length < 2) {
+                showConfirmModal("Atención", "Necesitas al menos 2 Spartans registrados.", null, false);
+                return;
+            }
+
+            const selA = document.getElementById('manual-spartan-a');
+            const selB = document.getElementById('manual-spartan-b');
+            selA.innerHTML = '';
+            selB.innerHTML = '';
+
+            appState.spartans.forEach(s => {
+                selA.innerHTML += `<option value="${s.id}">${s.name} (${s.platform})</option>`;
+                selB.innerHTML += `<option value="${s.id}">${s.name} (${s.platform})</option>`;
+            });
+
+            if (appState.spartans.length > 1) {
+                selB.selectedIndex = 1;
+            }
+
+            document.getElementById('modal-manual-match').classList.remove('hidden');
+        }
+
+        function closeManualMatchModal() {
+            document.getElementById('modal-manual-match').classList.add('hidden');
+        }
+
+        function saveManualMatch(e) {
+            e.preventDefault();
+            const spA = document.getElementById('manual-spartan-a').value;
+            const spB = document.getElementById('manual-spartan-b').value;
+
+            if (spA === spB) {
+                showConfirmModal("Aviso", "No puedes seleccionar al mismo Spartan para combatir consigo mismo.", null, false);
+                return;
+            }
+
+            appState.matches.push({
+                id: 'm_' + Date.now(),
+                spartanAId: spA,
+                spartanBId: spB,
+                scoreA: 0,
+                scoreB: 0,
+                completed: false,
+                winnerId: null
+            });
+
+            saveToLocalStorage();
+            closeManualMatchModal();
+            updateUI();
+        }
+
+        // SCORE MATCH MODAL
+        function openScoreModal(matchId) {
+            const match = appState.matches.find(m => m.id === matchId);
+            if (!match) return;
+
+            const spA = appState.spartans.find(s => s.id === match.spartanAId);
+            const spB = appState.spartans.find(s => s.id === match.spartanBId);
+
+            document.getElementById('score-match-id').value = match.id;
+            document.getElementById('score-name-a').textContent = spA ? spA.name : 'Spartan A';
+            document.getElementById('score-name-b').textContent = spB ? spB.name : 'Spartan B';
+            document.getElementById('score-kills-a').value = match.scoreA || 0;
+            document.getElementById('score-kills-b').value = match.scoreB || 0;
+            
+            // Video clip values
+            document.getElementById('score-video-url').value = (match.videoUrl && !match.videoUrl.startsWith('blob:')) ? match.videoUrl : '';
+            document.getElementById('score-video-file').value = '';
+
+            document.getElementById('modal-score').classList.remove('hidden');
+        }
+
+        function closeScoreModal() {
+            document.getElementById('modal-score').classList.add('hidden');
+        }
+
+        function saveMatchScore(e) {
+            e.preventDefault();
+            const matchId = document.getElementById('score-match-id').value;
+            const match = appState.matches.find(m => m.id === matchId);
+            if (!match) return;
+
+            const killsA = parseInt(document.getElementById('score-kills-a').value) || 0;
+            const killsB = parseInt(document.getElementById('score-kills-b').value) || 0;
+
+            // Video processing
+            const fileInput = document.getElementById('score-video-file');
+            const urlInput = document.getElementById('score-video-url').value.trim();
+
+            if (fileInput.files && fileInput.files[0]) {
+                const videoBlob = URL.createObjectURL(fileInput.files[0]);
+                match.videoUrl = videoBlob;
+            } else if (urlInput) {
+                match.videoUrl = urlInput;
+            }
+
+            // Revert stats if match was previously completed
+            if (match.completed) {
+                revertMatchStats(match);
+            }
+
+            match.scoreA = killsA;
+            match.scoreB = killsB;
+            match.completed = true;
+
+            const spA = appState.spartans.find(s => s.id === match.spartanAId);
+            const spB = appState.spartans.find(s => s.id === match.spartanBId);
+
+            if (killsA > killsB) {
+                match.winnerId = match.spartanAId;
+                if (spA) { spA.wins = (spA.wins || 0) + 1; }
+                if (spB) { spB.losses = (spB.losses || 0) + 1; }
+            } else if (killsB > killsA) {
+                match.winnerId = match.spartanBId;
+                if (spB) { spB.wins = (spB.wins || 0) + 1; }
+                if (spA) { spA.losses = (spA.losses || 0) + 1; }
+            } else {
+                match.winnerId = null; // Tie
+            }
+
+            if (spA) {
+                spA.kills = (spA.kills || 0) + killsA;
+                spA.deaths = (spA.deaths || 0) + killsB;
+            }
+            if (spB) {
+                spB.kills = (spB.kills || 0) + killsB;
+                spB.deaths = (spB.deaths || 0) + killsA;
+            }
+
+            saveToLocalStorage();
+            closeScoreModal();
+            updateUI();
+        }
+
+        function playMatchVideo(matchId) {
+            const match = appState.matches.find(m => m.id === matchId);
+            if (!match || !match.videoUrl) return;
+
+            const container = document.getElementById('video-container');
+            container.innerHTML = '';
+
+            let url = match.videoUrl;
+
+            // Handle YouTube URLs
+            if (url.includes('youtube.com/watch') || url.includes('youtu.be/')) {
+                let videoId = '';
+                if (url.includes('youtu.be/')) {
+                    videoId = url.split('youtu.be/')[1].split('?')[0];
+                } else {
+                    const urlParams = new URLSearchParams(new URL(url).search);
+                    videoId = urlParams.get('v');
+                }
+                container.innerHTML = `<iframe class="w-full h-full rounded-xl" src="https://www.youtube.com/embed/${videoId}?autoplay=1" title="Halo Reach Highlight" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else {
+                // HTML5 Video tag for direct video files or Blob URLs
+                container.innerHTML = `<video class="w-full h-full rounded-xl" controls autoplay src="${url}">Tu navegador no soporta el reproductor de video.</video>`;
+            }
+
+            document.getElementById('modal-video').classList.remove('hidden');
+        }
+
+        function closeVideoModal() {
+            const container = document.getElementById('video-container');
+            container.innerHTML = ''; // Stop video playback
+            document.getElementById('modal-video').classList.add('hidden');
+        }
+
+        function revertMatchStats(match) {
+            const spA = appState.spartans.find(s => s.id === match.spartanAId);
+            const spB = appState.spartans.find(s => s.id === match.spartanBId);
+
+            if (match.winnerId === match.spartanAId) {
+                if (spA) spA.wins = Math.max(0, (spA.wins || 0) - 1);
+                if (spB) spB.losses = Math.max(0, (spB.losses || 0) - 1);
+            } else if (match.winnerId === match.spartanBId) {
+                if (spB) spB.wins = Math.max(0, (spB.wins || 0) - 1);
+                if (spA) spA.losses = Math.max(0, (spA.losses || 0) - 1);
+            }
+
+            if (spA) {
+                spA.kills = Math.max(0, (spA.kills || 0) - match.scoreA);
+                spA.deaths = Math.max(0, (spA.deaths || 0) - match.scoreB);
+            }
+            if (spB) {
+                spB.kills = Math.max(0, (spB.kills || 0) - match.scoreB);
+                spB.deaths = Math.max(0, (spB.deaths || 0) - match.scoreA);
+            }
+        }
+
+        function showConfirmModal(title, msg, onConfirm, showCancel = true) {
+            document.getElementById('confirm-title').textContent = title;
+            document.getElementById('confirm-msg').textContent = msg;
+
+            const btnCancel = document.getElementById('confirm-btn-cancel');
+            btnCancel.style.display = showCancel ? 'inline-block' : 'none';
+
+            const btnOk = document.getElementById('confirm-btn-ok');
+
+            confirmCallback = onConfirm;
+
+            btnOk.onclick = () => {
+                if (confirmCallback) confirmCallback();
+                closeConfirmModal();
+            };
+
+            btnCancel.onclick = () => {
+                closeConfirmModal();
+            };
+
+            document.getElementById('modal-confirm').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('modal-confirm').classList.add('hidden');
+            confirmCallback = null;
+        }
+
+        function confirmResetTournamentData() {
+            showConfirmModal(
+                "¡PRECAUCIÓN!",
+                "Esta acción reiniciará todo el torneo por completo, borrando la tabla de posiciones y restaurando la lista inicial.",
+                () => {
+                    localStorage.removeItem('halo_reach_pousiza_state');
+                    appState.spartans = [
+                        { id: '1', name: 'Noble_Leader', platform: 'Xbox', color: '#06B6D4', wins: 0, losses: 0, kills: 0, deaths: 0 },
+                        { id: '2', name: 'LoneWolf_99', platform: 'PC', color: '#EF4444', wins: 0, losses: 0, kills: 0, deaths: 0 },
+                        { id: '3', name: 'Spartan_312', platform: 'Xbox', color: '#10B981', wins: 0, losses: 0, kills: 0, deaths: 0 },
+                        { id: '4', name: 'Ghost_Reach', platform: 'PC', color: '#F59E0B', wins: 0, losses: 0, kills: 0, deaths: 0 },
+                        { id: '5', name: 'Kat_UNSC', platform: 'Xbox', color: '#8B5CF6', wins: 0, losses: 0, kills: 0, deaths: 0 },
+                        { id: '6', name: 'Emile_Shot', platform: 'PC', color: '#EC4899', wins: 0, losses: 0, kills: 0, deaths: 0 }
+                    ];
+                    appState.matches = [];
+                    updateUI();
+                }
+            );
+        }
+
+        // TIMER LOGIC
+        function updateTimerDisplay() {
+            const mins = Math.floor(appState.timer.seconds / 60);
+            const secs = appState.timer.seconds % 60;
+            document.getElementById('timer-display').textContent = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (appState.timer.running) return;
+            appState.timer.running = true;
+            appState.timer.interval = setInterval(() => {
+                if (appState.timer.seconds > 0) {
+                    appState.timer.seconds--;
+                    updateTimerDisplay();
+                } else {
+                    pauseTimer();
+                    showConfirmModal("TIEMPO AGOTADO", "¡Han concluido los 10 minutos reglamentarios de la partida!", null, false);
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            appState.timer.running = false;
+            if (appState.timer.interval) clearInterval(appState.timer.interval);
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            appState.timer.seconds = 600;
+            updateTimerDisplay();
+        }
+    </script>
+</body>
+</html>
